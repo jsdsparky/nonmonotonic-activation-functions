@@ -1,4 +1,4 @@
-**Learning Non-Monotonic Activation Functions for Deep Neural Networks**
+# Learning Non-Monotonic Activation Functions for Deep Neural Networks
 
 Independent Research Project by Jack DeLano
 
