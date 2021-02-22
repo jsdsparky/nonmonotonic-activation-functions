@@ -41,7 +41,7 @@ f<sub>i</sub>(x<sub>i</sub>) = sigmoid(w<sub>fi</sub>∙x<sub>i</sub>+b<sub>fi</
 
 g<sub>i</sub>(x<sub>i</sub>) = 4∙sigmoid(w<sub>gi</sub>∙x<sub>i</sub>+b<sub>gi</sub>)∙(1 - sigmoid(w<sub>gi</sub>∙x<sub>i</sub>+b<sub>gi</sub>)) .
 
-The reader may recognize as a scaled version of the first derivative of the
+The reader may recognize g<sub>i</sub>(x<sub>i</sub>) as a scaled version of the first derivative of the
 sigmoid function, i.e. a bell curve with maximum value 1. This is exactly the
 non-monotonic component of the learned activation function. So, on top of the
 weight matrix for the fully-connected portion, the LAL has 5 additional
