@@ -2,13 +2,13 @@
 
 Independent Research Project by Jack DeLano
 
-Overview
+**Overview**
 
 In this report, I propose a novel architecture for learning non-monotonic
 activation functions in deep neural networks and present two experiments
 performed to evaluate its performance.
 
-Background
+**Background**
 
 Gidon et al. (2020) discovered cortical neurons in the human brain with
 activation potentials whose “amplitudes were maximal for threshold-level stimuli
@@ -27,15 +27,19 @@ activation unit, but the paper did not focus on non-monotonicity, and the
 learned functions in practice appear to be slight variations of ReLU (i.e. not
 non-monotonic in a significant/notable way).
 
-Proposed Model Architecture
+**Proposed Model Architecture**
 
 I propose the concept of a Learned Activation Layer (LAL) for deep neural
 networks. Inputs to this layer are sent through a standard fully-connected
 weight matrix to generate x, a vector of learned linear combinations of the
-inputs, (nothing new so far). Then, each node of the hidden layer gets its own
-separately learned activation function
-h<sub>i</sub>(x<sub>i</sub>) = w<sub>i</sub>∙f<sub>i</sub>(x<sub>i</sub>) + (1-w<sub>i</sub>)∙g<sub>i</sub>(x<sub>i</sub>) ,
-where f<sub>i</sub>(x<sub>i</sub>) = sigmoid(w<sub>fi</sub>∙x<sub>i</sub>+b<sub>fi</sub>) and g<sub>i</sub>(x<sub>i</sub>) = 4∙sigmoid(w<sub>gi</sub>∙x<sub>i</sub>+b<sub>gi</sub>)∙(1 - sigmoid(w<sub>gi</sub>∙x<sub>i</sub>+b<sub>gi</sub>)) .
+inputs (nothing new so far). Then, each node of the hidden layer gets its own
+separately learned activation function h<sub>i</sub>:
+
+h<sub>i</sub>(x<sub>i</sub>) = w<sub>i</sub>∙f<sub>i</sub>(x<sub>i</sub>) + (1-w<sub>i</sub>)∙g<sub>i</sub>(x<sub>i</sub>) , where
+
+f<sub>i</sub>(x<sub>i</sub>) = sigmoid(w<sub>fi</sub>∙x<sub>i</sub>+b<sub>fi</sub>) and
+
+g<sub>i</sub>(x<sub>i</sub>) = 4∙sigmoid(w<sub>gi</sub>∙x<sub>i</sub>+b<sub>gi</sub>)∙(1 - sigmoid(w<sub>gi</sub>∙x<sub>i</sub>+b<sub>gi</sub>)) .
 
 The reader may recognize as a scaled version of the first derivative of the
 sigmoid function, i.e. a bell curve with maximum value 1. This is exactly the
@@ -46,17 +50,17 @@ parameters per layer node: w<sub>i</sub>, w<sub>fi</sub>, b<sub>fi</sub>, w<sub>
 This formulation for the LAL addresses the concerns alluded to in the Background
 section, namely that we don’t initially know which neurons should have
 non-monotonic activations and which should have monotonic ones, as well as what
-those activations should look like. Through learning parameter , the model
-learns what proportion of the final activation should come from (and what
-remaining should come from ). Through learning the other 4 parameters, the model
-tunes the shapes of and .
+those activations should look like. Through learning parameter w<sub>i</sub>, the model
+learns what proportion of the final activation should come from f<sub>i</sub>(x<sub>i</sub>) (and what
+remaining should come from g<sub>i</sub>(x<sub>i</sub>)). Through learning the other 4 parameters, the model
+tunes the shapes of f<sub>i</sub>(x<sub>i</sub>) and g<sub>i</sub>(x<sub>i</sub>).
 
-Method
+**Method**
 
 In order to create a platform on which to test the performance of the LAL, I
 implemented a custom module in PyTorch with computationally efficient forward
 and back-propagation algorithms, achieved through mathematical simplifications
-in the gradient formulas for . The custom module appeared to be more efficient
+in the gradient formulas for g<sub>i</sub>(x<sub>i</sub>). The custom module appeared to be more efficient
 than leaving the backpropagation entirely to PyTorch’s standard autograd
 package, for training networks of sufficiently large size.
 
@@ -74,7 +78,7 @@ the classic NN architecture.
 All training was done on a machine running a fresh installation of Linux Mint,
 utilizing a Nvidia GTX 1080 Ti.
 
-Data
+**Data**
 
 This section describes the generation of the train and test datasets. The data
 is composed of two classes, which for simplicity I will call red and blue.
@@ -90,7 +94,7 @@ Next, for each of the 500,000 generated data points, a gaussian was selected
 uniformly at random and sampled according to its distribution. The data points
 were then separated 75%/25% into train and test datasets.
 
-Experiments
+**Experiments**
 
 I performed two experiments to compare the performances of the
 learned-activation and classic NN architectures on the generated dataset. The
@@ -110,7 +114,7 @@ using these hyperparameter values with cross-entropy loss and SGD with
 momentum=0.65. Their accuracies on the train and test datasets were evaluated
 and recorded every 10 epochs.
 
-Results
+**Results**
 
 In Figures 1 and 2 below, only the accuracy on the test dataset is plotted,
 since the train accuracy was nearly exactly the same and only served to make the
@@ -119,12 +123,12 @@ test accuracy than the classic NN in the cases of both hid\_dim=10 and
 hid_dim=20. In fact, the learned-activation NN with hid_dim=10 even outperforms
 the classic NN with hid_dim=20.
 
-![](plots/convergence_hd10.png)
+<img width="500" alt="" src="plots/convergence_hd10.png">
 
 **Figure 1.** Test accuracy of classic NN (blue) and learned-activation NN
 (orange) over time for hid_dim=10.
 
-![](plots/convergence_hd20.png)
+<img width="500" alt="" src="plots/convergence_hd20.png">
 
 **Figure 2.** Test accuracy of classic NN (blue) and learned-activation NN
 (orange) over time for hid_dim=20.
@@ -133,15 +137,15 @@ In Figures 3 and 4 below, the learned activation functions are plotted for each
 node in the LAL. We can see that the networks learn a nice variety of activation
 functions.
 
-![](plots/lal_hd10.png)
+<img width="500" alt="" src="plots/lal_hd10.png">
 
 **Figure 3.** LAL learned activation functions for hid_dim=10.
 
-![](plots/lal_hd20.png)
+<img width="500" alt="" src="plots/lal_hd20.png">
 
 **Figure 4.** LAL learned activation functions for hid_dim=20.
 
-Conclusion
+**Conclusion**
 
 LALs show promising results for training accurate models with a relatively small
 increase in parameters. Future research could evaluate the performance of LALs
