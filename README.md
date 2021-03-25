@@ -125,13 +125,13 @@ the classic NN with hid_dim=20.
 
 <img width="500" alt="" src="plots/convergence_hd10.png">
 
-**Figure 1. Test accuracy of classic NN (blue) and learned-activation NN**
-(orange) over time for hid_dim=10.
+**Figure 1. Test accuracy of classic NN (blue) and learned-activation NN
+(orange) over time for hid_dim=10.**
 
 <img width="500" alt="" src="plots/convergence_hd20.png">
 
-**Figure 2. Test accuracy of classic NN (blue) and learned-activation NN**
-(orange) over time for hid_dim=20.
+**Figure 2. Test accuracy of classic NN (blue) and learned-activation NN
+(orange) over time for hid_dim=20.**
 
 In Figures 3 and 4 below, the learned activation functions are plotted for each
 node in the LAL. We can see that the networks learn a nice variety of activation
